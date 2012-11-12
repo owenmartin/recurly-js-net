@@ -65,13 +65,13 @@ namespace RecurlyJS
 		/// </remarks>
 		/// <param name="recurlyToken">The recurly token.</param>
 		/// <returns>Returns a string, representing XML of the object.</returns>
-		public async Task<string> Fetch(string recurlyToken)
+		public Task<string> Fetch(string recurlyToken)
 		{
 			HttpClient client = new HttpClient();
 			client.DefaultRequestHeaders.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/xml"));
 			client.DefaultRequestHeaders.Authorization = AuthenticationHeaderValue.Parse(String.Join(" ", "Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes(RecurlyConfig.ApiKey))));
 
-			return await client.GetStringAsync(String.Concat("https://api.recurly.com/v2/recurly_js/result/", recurlyToken)).ConfigureAwait(false);
+			return client.GetStringAsync(String.Concat("https://api.recurly.com/v2/recurly_js/result/", recurlyToken));
 		}
 
 		private static string SignWithParameters(params string[] parameters)
